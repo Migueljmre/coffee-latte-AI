@@ -1,0 +1,5 @@
+request
+gradio
+PyMuPDF
+python-docx
+pandas
