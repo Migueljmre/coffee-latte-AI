@@ -3,9 +3,11 @@ import requests
 import base64
 import io
 from PIL import Image
+import os
+from dotenv import load_dotenv
 
-# URL de la API local de LM Studio
-API_URL = "http://127.0.0.1:1234/v1/chat/completions"
+load_dotenv()
+API_URL = os.getenv("API_URL")
 
 # Prompt para LM Studio
 PROMPT = (

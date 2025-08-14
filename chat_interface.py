@@ -1,13 +1,15 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-# URL de la API local de LM Studio
-API_URL = "http://127.0.0.1:1234/v1/chat/completions"
+load_dotenv()
+API_URL = os.getenv("API_URL")
 
 # Función para enviar mensajes al modelo
 def chat_with_lm(message, history):
     # Construir el historial de mensajes
     messages = [{"role": "system", "content": "Eres un asistente útil. Genera respuestas cortas y concretas al usuario. Resumir todas las peticiones"}]
-    messages.extend(history)  # formato [{"role": ..., "content": ...}]
+    messages.extend(history) 
     messages.append({"role": "user", "content": message})
 
 
