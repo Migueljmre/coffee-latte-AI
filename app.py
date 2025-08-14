@@ -1,10 +1,11 @@
 import gradio as gr
 import requests
 import os
-#import fitz  # PyMuPDF
+import fitz  # PyMuPDF
 import docx
 import pandas as pd
 from chat_interface import chat_with_lm
+from diagram_creator import generar_xml
 
 # Configuración de API local (LM Studio u Ollama)
 API_URL = "http://127.0.0.1:1234/v1/chat/completions"  # Cambia el puerto si usas Ollama
@@ -12,12 +13,15 @@ API_URL = "http://127.0.0.1:1234/v1/chat/completions"  # Cambia el puerto si usa
 # Inicializar
 chat = chat_with_lm
 
+def mostrar_imagen(imagen):
+    return imagen
+
 # Herramienta: Leer archivo PDF
 def leer_pdf(path: str) -> str:
     try:
-        # doc = fitz.open(path)
-        # texto = "\n".join([page.get_text() for page in doc])
-        resumen = resumir_texto("")
+        doc = fitz.open(path)
+        texto = "\n".join([page.get_text() for page in doc])
+        resumen = resumir_texto(texto)
         return resumen
     except Exception as e:
         return f"Error al leer PDF: {e}"
@@ -99,19 +103,7 @@ with gr.Blocks(title="Hackaton 2025") as demo:
     )
     
     with gr.Tabs():
-        # Tab para resumen de archivos
-        with gr.TabItem("📥 Resumen de archivos"):
-            gr.Markdown("### 🚀 Dos pasos para obtener un resumen")
-            gr.Markdown(
-                "**Step 1:** Sube el archivo en formado .docx, pdf, xlsx, txt → **Step 2:** Genera un resumen del contenido del archivo"
-            )
-
-            archivo = gr.File(label="Sube un archivo")
-            salida = gr.Textbox(label="Resumen generado", lines=10)
-            boton = gr.Button("Procesar archivo")
-            boton.click(fn=procesar_archivo, inputs=archivo, outputs=salida)
-       
-       # Tab para chat privado 
+        # Tab para chat privado 
         with gr.TabItem("🤖 AI Assistant"):
             # Interfaz Gradio
             gr.ChatInterface(
@@ -122,6 +114,32 @@ with gr.Blocks(title="Hackaton 2025") as demo:
                 # stream=True,
                 save_history = True,
                 )
+        # Tab para resumen de archivos
+        with gr.TabItem("🗂️ Generador de diagramas"):
+            gr.Markdown("### 🚀 Dos pasos para tu diagrama uml")
+            gr.Markdown(
+                "**Step 1:** Sube boceto o fotografia en formado, jpeg, jpg o png, → **Step 2:** Generará tu diagrama editable"
+            )
+            
+            imagen_input = gr.Image(type="pil", label="Sube tu imagen UML (boceto o fotografía)")
+            archivo_output = gr.File(label="Descargar archivo .drawio")
+
+            mensaje_estado = gr.Textbox(label="Estado", interactive=False)
+            boton = gr.Button("Generar XML para draw.io")
+            boton.click(fn=generar_xml, inputs=imagen_input, outputs=[archivo_output, mensaje_estado])
+
+       
+        # Tab para resumen de archivos
+        with gr.TabItem("📥 Agentes"):
+            gr.Markdown("### 🚀 Dos pasos para obtener un resumen")
+            gr.Markdown(
+                "**Step 1:** Sube el archivo en formado .docx, pdf, xlsx, txt → **Step 2:** Genera un resumen del contenido del archivo"
+            )
+
+            archivo = gr.File(label="Sube un archivo")
+            salida = gr.Textbox(label="Resumen generado", lines=10)
+            boton = gr.Button("Procesar archivo")
+            boton.click(fn=procesar_archivo, inputs=archivo, outputs=salida)
         # ================================
         # Tab 5: About & MCP Configuration
         # ================================
