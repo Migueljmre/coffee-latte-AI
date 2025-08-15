@@ -7,6 +7,7 @@ from tab_diagrams import tab_diagrams
 from tab_agent import tab_agent
 from tab_config import tab_config
 
+
 load_dotenv()
 API_URL = os.getenv("API_URL")
 
@@ -25,5 +26,6 @@ with gr.Blocks(title="Hackaton 2025") as demo:
         tab_diagrams()
         tab_agent()
         tab_config()
+
 if __name__ == "__main__":
     demo.launch(share=False)
