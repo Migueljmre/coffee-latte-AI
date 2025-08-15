@@ -1,0 +1,37 @@
+Aquí tienes una representación textual del diagrama, junto con una explicación:
+
+**Diagrama:**
+
+```mermaid
+graph LR
+    A[Browser] --> B(HTML/Javascript);
+    B --> C{Web Layer};
+    C -- Business Logic --> D[JS App Server];
+    D -- Data Access --> E[AR Server Bus];
+    E -- Database Interaction --> F{{Database DB (Oracle)}};
+    E -- Database Interaction --> G{{Database DE (VSN)};
+    F --> H[IBM HPerefine];
+    H -- Data Access --> I[AS/COBOL];
+    I --> J{{Database DB (Oracle)}};
+    J --> K[IBM HPerefine];
+    K --> L[Key Performance Monitor];
+
+```
+
+**Explicación:**
+
+Este diagrama representa una arquitectura de software típica, probablemente utilizada en un sistema empresarial.  Desglosa el proceso de interacción entre diferentes capas y componentes:
+
+*   **Usuario (Browser):** El usuario interactúa a través del navegador web.
+*   **Web Layer:**  Maneja la comunicación HTML/Javascript.
+*   **Business Logic:** Contiene la lógica específica de la aplicación, procesando datos y tomando decisiones.
+*   **JS App Server:** Un servidor que ejecuta el código Javascript para manejar la lógica de negocio.
+*   **AR Server Bus:** Un bus de red que facilita la comunicación entre diferentes componentes del sistema.
+*   **Databases (Oracle & VSN):**  Las bases de datos donde se almacenan los datos, utilizando Oracle y VSNet como ejemplos.
+*   **IBM HPerefine:** Un servidor IBM utilizado para procesar datos y generar informes.
+*   **AS/COBOL:** Otro sistema operativo y lenguaje de programación utilizados en el backend.
+*   **Key Performance Monitor:**  Un componente que monitoriza el rendimiento del sistema.
+
+En resumen, el diagrama ilustra cómo los datos fluyen a través de diferentes capas de software, desde la interfaz de usuario hasta las bases de datos, pasando por servidores de aplicaciones y componentes de procesamiento de datos.
+
+Si necesitas una descripción más detallada de algún componente o proceso, házmelo saber.
