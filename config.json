@@ -8,9 +8,9 @@
     },
     "activos": {
         "local": true,
-        "azure": false,
+        "azure": true,
         "aws": true,
-        "gcp": false,
-        "sharepoint": false
+        "gcp": true,
+        "sharepoint": true
     }
 }
