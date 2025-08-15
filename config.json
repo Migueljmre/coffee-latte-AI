@@ -1,0 +1,16 @@
+{
+    "rutas": {
+        "local": "c/root",
+        "azure": "https://azure.blob/",
+        "aws": "s3://aws-bucket/",
+        "gcp": "gs://gcp-bucket/",
+        "sharepoint": "https://sharepoint.site/"
+    },
+    "activos": {
+        "local": true,
+        "azure": true,
+        "aws": true,
+        "gcp": true,
+        "sharepoint": true
+    }
+}
