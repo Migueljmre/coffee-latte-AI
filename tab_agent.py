@@ -4,6 +4,7 @@ import docx
 import requests
 import fitz  # PyMuPDF
 
+
 # Herramienta: Leer archivo PDF
 def leer_pdf(path: str) -> str:
     try:

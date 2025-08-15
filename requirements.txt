@@ -3,3 +3,4 @@ gradio
 PyMuPDF
 python-docx
 pandas
+dotenv
