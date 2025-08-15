@@ -6,14 +6,14 @@ import io
 import os
 import shutil
 from dotenv import load_dotenv
-
+from mermaid import Mermaid
 # Cargar variables de entorno
 load_dotenv()
 API_URL = os.getenv("API_URL")
 
 
 # Ruta de imagen fija TEST.png
-test_image_path = "TEST.png"
+test_image_path = "temp.png"
 test_image = Image.open(test_image_path) if os.path.exists(test_image_path) else None
 
 # Estado para mantener contexto
@@ -30,12 +30,12 @@ def generar_mermaid(prompt_text, image):
 
     messages = []
     if chat_history["first_message"]:
-        messages.append({"role": "system", "content": "Eres un asistente que convierte diagramas en código Mermaid."})
+        messages.append({"role": "system", "content": "Eres un asistente que convierte diagramas en código Mermaid. no uses el formato de markdow en tu respuesra evita ```"})
+        user_content = [{"type": "text", "text": prompt_text}]
     else:
         messages.append({"role": "system", "content": "Eres un asistente que convierte diagramas en código Mermaid. Usa el contexto anterior para continuar."})
-        messages.append({"role": "assistant", "content": chat_history["last_response"]})
-
-    user_content = [{"type": "text", "text": prompt_text}]
+        user_content = [{"type": "text", "text": chat_history["last_response"] +"de este diagrama cambia: "+ prompt_text+"no me expliques nada solo dame el codigo"}]
+    
     if image is not None:
         imagen_b64 = image_to_base64(image)
         user_content.append({"type": "image_url", "image_url": {"url": f"data:image/png;base64,{imagen_b64}"}})
@@ -48,16 +48,21 @@ def generar_mermaid(prompt_text, image):
         "temperature": 0.3
     })
 
+    
     respuesta = response.json()["choices"][0]["message"]["content"]
+    respuestalimpia = respuesta.replace("```mermaid","").replace("```","").strip()
+    print(respuestalimpia)
     chat_history["last_response"] = respuesta
     chat_history["first_message"] = False
+    diagram = Mermaid(respuestalimpia)
+    diagram.to_png("temp.png")
     return respuesta
 
 def generar_explicacion_detallada(directorio_destino):
     if chat_history["last_response"] is None:
         return "⚠️ No hay respuesta previa para generar explicación."
 
-    prompt = chat_history["last_response"] + "\nGenerame una explicación detallada de este diagrama."
+    prompt = chat_history["last_response"] + "\nGenerame una explicación general de este diagrama."
     messages = [
         {"role": "system", "content": "Eres un asistente que explica diagramas en detalle."},
         {"role": "user", "content": [{"type": "text", "text": prompt}]}
