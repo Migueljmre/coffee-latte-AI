@@ -10,7 +10,6 @@ import pandas as pd
 load_dotenv()
 API_URL = os.getenv("API_URL")
 
-
 # Herramienta: Leer archivo PDF
 def leer_pdf(path: str) -> str:
     try:
